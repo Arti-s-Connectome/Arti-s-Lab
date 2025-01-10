@@ -1,0 +1,56 @@
+#pinkbutton{
+	-fx-background-color: 
+        linear-gradient(#f4c4ec, #eea1e2),
+        linear-gradient(#ec9adf, #e678d5),
+        linear-gradient(#e571d2, #df4ec8),
+        linear-gradient(#cf25b4 0%, #c122a8 50%, #ac1f96 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 20;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #290724;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 10 10 10;
+}
+#pinkbutton:hover{
+	-fx-background-color: 
+        linear-gradient(#f4c4ec, #eea1e2),
+        linear-gradient(#ec9adf, #e678d5),
+        linear-gradient(#e571d2, #df4ec8),
+        linear-gradient(#cf25b4 0%, #c122a8 50%, #ac1f96 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 20;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #7c166c;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 10 10 10;
+}
+#pinkbutton:pressed{
+	-fx-background-color: 
+        linear-gradient(#a51d90, #831772),
+        linear-gradient(#7c166c, #59104e),
+        linear-gradient(#520e48, #30082a),
+        linear-gradient(#cf25b4 0%, #c122a8 50%, #ac1f96 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 20;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #290724;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10 10 10 10;
+}
+#pinkbutton:disabled{
+	-fx-background-color: 
+	    linear-gradient(#a51d90, #831772),
+	    linear-gradient(#7c166c, #59104e),
+	    linear-gradient(#520e48, #30082a),
+	    linear-gradient(#af7da7 0%, #a785a1 50%, #9e8e9c 100%),
+	    linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+	-fx-background-radius: 20;
+	-fx-background-insets: 0,1,2,3,0;
+	-fx-text-fill: #560f4b;
+	-fx-font-weight: bold;
+	-fx-font-size: 14px;
+	-fx-padding: 10 10 10 10;
+}
