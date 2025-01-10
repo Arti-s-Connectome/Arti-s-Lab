@@ -1,5 +1,7 @@
 # Artilab
-Artilab is a Java desktop app for designing, researching, and testing neuron and neural network models. Currently, it is a very new program under development, and it is intended to become our flagship research and development app.
+- Artilab is a Java desktop app for designing, researching, and testing neuron and neural network models. Currently, it is a very new program under development, and it is intended to become our flagship research and development app.
+- Artilab requires JavaFX v23 and Java SDK v22.
+- A runnable JAR file for Artilab will be provided in the future.
 
 # Completed
 Izhikevich Neuron Lab
