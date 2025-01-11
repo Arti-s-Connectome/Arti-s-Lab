@@ -43,7 +43,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -349,6 +348,10 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
 		ramping = false;
 		prevI = I;
 		
+		// Setup layout
+		setMinHeight(DEF_HEIGHT);
+		setMaxHeight(DEF_HEIGHT);
+		
 		// Load model file
 		modelNames = FXCollections.observableArrayList();
 		
@@ -377,7 +380,8 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
 		modelLabel.setTextFill(Color.WHITE);
 		modelLabel.setFont(new Font(modelLabel.getFont().getName(), 16.0));
 		modelLabel.setBackground(Background.EMPTY);
-		modelLabel.setMinHeight(40.0);
+		modelLabel.setMinHeight(30.0);
+		modelLabel.setMaxHeight(30.0);
 		modelLabel.setAlignment(Pos.CENTER);
 		
 		modelList = new ListView<String>(modelNames);
@@ -499,6 +503,8 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
             // Return the list item
 			return cell;
 		});
+		modelList.setMinHeight(DEF_HEIGHT - modelLabel.getHeight());
+		modelList.setMaxHeight(DEF_HEIGHT - modelLabel.getHeight());
 		
 		// Create phase portrait graph
 		pxAxis = new NumberAxis(-100.0f, 30.0f, 10.0f);
@@ -1390,7 +1396,8 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
 		outputLabel.setTextFill(Color.WHITE);
 		outputLabel.setFont(new Font(outputLabel.getFont().getName(), 16.0));
 		outputLabel.setBackground(Background.EMPTY);
-		outputLabel.setMinHeight(40.0);
+		outputLabel.setMinHeight(30.0);
+		outputLabel.setMaxHeight(30.0);
 		outputLabel.setAlignment(Pos.CENTER);
 		
 		outputArea = new TextArea();
@@ -1402,13 +1409,14 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
 				outputArea.setScrollTop(Double.MAX_VALUE);
 			}
 		});
+		outputArea.setMinHeight(DEF_HEIGHT - outputLabel.getHeight());
+		outputArea.setMaxHeight(DEF_HEIGHT - outputLabel.getHeight());
 		
 		outputLog = "";
 		
 		// Add components
 		VBox modelBox = new VBox();
 		modelBox.getChildren().addAll(modelLabel, modelList);
-		VBox.setVgrow(modelList, Priority.ALWAYS);
 		modelBox.setPadding(new Insets(0.0, 5.0, 0.0, 5.0));
 		
 		VBox vuGraphBox = new VBox();
@@ -1425,7 +1433,6 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
 		
 		VBox outputBox = new VBox();
 		outputBox.getChildren().addAll(outputLabel, outputArea);
-		VBox.setVgrow(outputArea, Priority.ALWAYS);
 		outputBox.setPadding(new Insets(0.0, 5.0, 0.0, 5.0));
 		
 		setLeft(modelBox);
@@ -1684,6 +1691,8 @@ public class IzhikevichLab extends BorderPane implements AppSizeListener, Runnab
 	@Override
 	public void sizeChanged(AppSizeEvent e) {
 		resize(e.getWidth(), e.getWorkspaceHeight());
+		setMinHeight(e.getWorkspaceHeight());
+		setMaxHeight(e.getWorkspaceHeight());
 		modelLabel.setMinWidth(e.getWidth() * 0.125);
 		modelLabel.setMaxWidth(e.getWidth() * 0.125);
 		modelList.setMinWidth(e.getWidth() * 0.125);

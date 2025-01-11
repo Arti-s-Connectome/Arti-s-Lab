@@ -16,14 +16,9 @@ import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
@@ -51,11 +46,11 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 	private static final double MAX_SCALE = 4.0;
 	// Minimum scale.
 	private static final double MIN_SCALE = 0.1;
-	
-	// Button color.
-	private static final Color BUTTON_COLOR = Color.rgb(71, 132, 183);
+
 	// Grid color.
 	private static final Color GRID_COLOR = Color.rgb(57, 106, 146);
+	// Overlay background color.
+	private static final Color OVERLAY_COLOR = Color.rgb(42, 79, 110, 0.5);
 	// Text color.
 	private static final Color TEXT_COLOR = Color.rgb(239, 168, 228);
 	
@@ -64,29 +59,14 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 	 */
 	public static final double GRID_CELL_SIZE = 100.0;
 	
-	/**
-	 * Down arrow icon location.
-	 */
-	private static final String DOWN_ICON = "icons/icons8-down-15.png";
-	/**
-	 * Left arrow icon location.
-	 */
-	private static final String LEFT_ICON = "icons/icons8-left-15.png";
-	/**
-	 * Right arrow icon location.
-	 */
-	private static final String RIGHT_ICON = "icons/icons8-right-15.png";
-	/**
-	 * Up arrow icon location.
-	 */
-	private static final String UP_ICON = "icons/icons8-up-15.png";
-	
 	// Display's drawing canvas.
 	private Canvas canvasDraw;
 	// Display's grid canvas.
 	private Canvas canvasGrid;
 	// Display's overlay canvas.
 	private Canvas canvasOverlay;
+	// Mouse dragging flag.
+	private boolean dragging;
 	// Ending line connector.
 	private LineConnector endConnector;
 	// Filled grid cells.
@@ -105,16 +85,6 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 	private ArrayList<DisplayObject> object;
 	// Selected display object.
 	private DisplayObject objectSelected;
-	// Pan down button.
-	private Button panDownButton;
-	// Pan left button.
-	private Button panLeftButton;
-	// Pan buttons border pane.
-	private BorderPane panPane;
-	// Pan right button.
-	private Button panRightButton;
-	// Pan up button.
-	private Button panUpButton;
 	// Display scale.
 	private double scale;
 	// Starting line connector.
@@ -145,6 +115,7 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 		canvasDraw = new Canvas(DEF_WIDTH, DEF_HEIGHT);
 		canvasGrid = new Canvas(DEF_WIDTH, DEF_HEIGHT);
 		canvasOverlay = new Canvas(DEF_WIDTH, DEF_HEIGHT);
+		dragging = false;
 		endConnector = null;
 		filledCell = new ArrayList<Point2D>();
 		gcDraw = canvasDraw.getGraphicsContext2D();
@@ -167,159 +138,6 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 		// Set size
 		setPrefHeight(DEF_HEIGHT);
 		setPrefWidth(DEF_WIDTH);
-		
-		// Load icon images
-		Image downImg = new Image(DOWN_ICON);
-		ImageView downView = new ImageView(downImg);
-		
-		Image leftImg = new Image(LEFT_ICON);
-		ImageView leftView = new ImageView(leftImg);
-		
-		Image rightImg = new Image(RIGHT_ICON);
-		ImageView rightView = new ImageView(rightImg);
-		
-		Image upImg = new Image(UP_ICON);
-		ImageView upView = new ImageView(upImg);
-		
-		// Create pan buttons
-		panDownButton = new Button();
-		panDownButton.setMinSize(DEF_WIDTH, 15.0);
-		panDownButton.setMaxSize(DEF_WIDTH, 15.0);
-		panDownButton.setOpacity(0.0);
-		panDownButton.setBackground(Background.fill(BUTTON_COLOR));
-		panDownButton.setGraphic(downView);
-		
-		panDownButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panDownButton.setOpacity(0.5);
-			}
-		});
-		
-		panDownButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panDownButton.setOpacity(0.0);
-			}
-		});
-		
-		panDownButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				double xDelta = 0.0;
-				double yDelta = 50.0;
-				gcDraw.translate(-xDelta, -yDelta);
-				gcGrid.translate(-xDelta, -yDelta);
-				redraw();
-				redrawGrid();
-			}
-		});
-		
-		panLeftButton = new Button();
-		panLeftButton.setMinSize(15.0, DEF_HEIGHT - 30.0);
-		panLeftButton.setMaxSize(15.0, DEF_HEIGHT - 30.0);
-		panLeftButton.setOpacity(0.0);
-		panLeftButton.setBackground(Background.fill(BUTTON_COLOR));
-		panLeftButton.setGraphic(leftView);
-		
-		panLeftButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panLeftButton.setOpacity(0.5);
-			}
-		});
-		
-		panLeftButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panLeftButton.setOpacity(0.0);
-			}
-		});
-		
-		panLeftButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				double xDelta = -50.0;
-				double yDelta = 0.0;
-				gcDraw.translate(-xDelta, -yDelta);
-				gcGrid.translate(-xDelta, -yDelta);
-				redraw();
-				redrawGrid();
-			}
-		});
-		
-		panRightButton = new Button();
-		panRightButton.setMinSize(15.0, DEF_HEIGHT - 30.0);
-		panRightButton.setMaxSize(15.0, DEF_HEIGHT - 30.0);
-		panRightButton.setOpacity(0.0);
-		panRightButton.setBackground(Background.fill(BUTTON_COLOR));
-		panRightButton.setGraphic(rightView);
-		
-		panRightButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panRightButton.setOpacity(0.5);
-			}
-		});
-		
-		panRightButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panRightButton.setOpacity(0.0);
-			}
-		});
-		
-		panRightButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				double xDelta = 50.0;
-				double yDelta = 0.0;
-				gcDraw.translate(-xDelta, -yDelta);
-				gcGrid.translate(-xDelta, -yDelta);
-				redraw();
-				redrawGrid();
-			}
-		});
-		
-		panUpButton = new Button();
-		panUpButton.setMinSize(DEF_WIDTH, 15.0);
-		panUpButton.setMaxSize(DEF_WIDTH, 15.0);
-		panUpButton.setOpacity(0.0);
-		panUpButton.setBackground(Background.fill(BUTTON_COLOR));
-		panUpButton.setGraphic(upView);
-		
-		panUpButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panUpButton.setOpacity(0.5);
-			}
-		});
-		
-		panUpButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				panUpButton.setOpacity(0.0);
-			}
-		});
-		
-		panUpButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent arg0) {
-				double xDelta = 0.0;
-				double yDelta = -50.0;
-				gcDraw.translate(-xDelta, -yDelta);
-				gcGrid.translate(-xDelta, -yDelta);
-				redraw();
-				redrawGrid();
-			}
-		});
-		
-		panPane = new BorderPane();
-		panPane.setPrefSize(DEF_WIDTH, DEF_HEIGHT);
-		panPane.setBottom(panDownButton);
-		panPane.setTop(panUpButton);
-		panPane.setLeft(panLeftButton);
-		panPane.setRight(panRightButton);
 		
 		// Handle mouse wheel (zooming)
 		setOnScroll(new EventHandler<ScrollEvent>() {
@@ -348,8 +166,12 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
+				// If dragging
+				if (dragging) {
+					dragging = false;
+				}
 				// If clicked
-				if (arg0.getClickCount() == 1) {
+				else if (arg0.getClickCount() == 1) {
 					// If left mouse button is clicked
 					if (arg0.getButton() == MouseButton.PRIMARY) {
 						// If a display object is selected, stop moving it
@@ -357,7 +179,8 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 							// Check if cell is already filled, and if not then fill it
 							boolean filled = false;
 							for (int i = 0; i < filledCell.size(); ++i) {
-								if (filledCell.get(i).getX() == xCell && filledCell.get(i).getY() == yCell) {
+								if (filledCell.get(i).getX() >= xCell - 1 && filledCell.get(i).getX() <= xCell + 1 && 
+										filledCell.get(i).getY() >= yCell - 1 && filledCell.get(i).getY() <= yCell + 1) {
 									filled = true;
 									break;
 								}
@@ -366,21 +189,21 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 							// If cell is not filled
 							if (!filled) {
 								// Fill cell and update display
-								
-								objectSelected.mouseClicked(xCell * GRID_CELL_SIZE + 50.0, yCell * GRID_CELL_SIZE + 50.0);
+								filledCell.add(new Point2D(xCell, yCell));
+								objectSelected.mouseClicked(xCell, yCell);
 								objectSelected = null;
 								redraw();
 							}
-							// If cell is filled
+							// If cell is filled, display error message
 							else {
-								
+								App.alertError("Grid Area Occupied", "Objects must have at least one square space between them.");
 							}
 						}
 						else {
 							// Send click message to the object the mouse is hovering over, if any
 							for (int i = 0; i < object.size(); ++i) {
 								if (object.get(i).isHovering()) 
-									object.get(i).mouseClicked(xCell * GRID_CELL_SIZE + 50.0, yCell * GRID_CELL_SIZE + 50.0);
+									object.get(i).mouseClicked(xCell, yCell);
 							}
 						}
 					}
@@ -415,6 +238,15 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 								if (object.get(i).isHovering()) {
 									objectSelected = object.get(i);
 									object.get(i).mouseDoubleClicked();
+									
+									// Remove filled position at the selected object's location
+									for (int j = 0; j < filledCell.size(); ++j) {
+										if (filledCell.get(j).getX() == objectSelected.xCell() && 
+												filledCell.get(j).getY() == objectSelected.yCell()) {
+											filledCell.remove(j);
+											break;
+										}
+									}
 								}
 							}
 						}
@@ -454,6 +286,7 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 		setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
+				dragging = true;
 				double xDelta = (xMouse - arg0.getX());
 				double yDelta = (yMouse - arg0.getY());
 				gcDraw.translate(-xDelta, -yDelta);
@@ -466,12 +299,11 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 		});
 		
 		// Add canvases
-		getChildren().addAll(canvasGrid, canvasDraw, canvasOverlay, panPane);
+		getChildren().addAll(canvasGrid, canvasDraw, canvasOverlay);
 		
 		// Set origin to center of the display and draw the display
 		gcDraw.transform(scale, 0.0, 0.0, scale, xOrigin, yOrigin);
 		gcGrid.transform(scale, 0.0, 0.0, scale, xOrigin, yOrigin);
-		gcOverlay.transform(scale, 0.0, 0.0, scale, xOrigin, yOrigin);
 		redraw();
 		redrawGrid();
 		redrawOverlay();
@@ -748,13 +580,36 @@ public class NetworkDisplay extends StackPane implements AppToolBarListener, Dis
 	 * Redraws the neural network display's overlay.
 	 */
 	public void redrawOverlay() {
-		gcOverlay.clearRect(-width / 2.0, -height / 2.0, width, height);
+		gcOverlay.clearRect(0.0, 0.0, width, height);
+		gcOverlay.setFill(OVERLAY_COLOR);
+		gcOverlay.fillRect(0.0, 0.0, 115.0, 75.0);
 		gcOverlay.setFill(TEXT_COLOR);
 		gcOverlay.setTextBaseline(VPos.TOP);
-		gcOverlay.fillText("Mouse: {" + (int)(xMouse) + ", " + (int)(yMouse) + "}", -width / 2.0, -height / 2.0);
+		gcOverlay.fillText("Mouse: {" + (int)(xMouse) + ", " + (int)(yMouse) + "}", 0.0, 0.0);
 		gcOverlay.fillText("Grid: {" + (int)((xMouse - gcDraw.getTransform().getTx()) / scale) + ", " + 
-				(int)((yMouse - gcDraw.getTransform().getTy()) / scale) + "}", -width / 2.0, (-height / 2.0) + 15.0);
-		gcOverlay.fillText("Grid Cell: {" + (int)xCell + ", " + (int)yCell + "}", -width / 2.0, (-height / 2.0) + 30.0);
-		gcOverlay.fillText("Zoom: " + (int)(scale * GRID_CELL_SIZE) + "%", -width / 2.0, (-height / 2.0) + 45.0);
+				(int)((yMouse - gcDraw.getTransform().getTy()) / scale) + "}", 0.0, 15.0);
+		gcOverlay.fillText("Grid Cell: {" + (int)xCell + ", " + (int)yCell + "}", 0.0, 30.0);
+		gcOverlay.fillText("Zoom: " + (int)(scale * GRID_CELL_SIZE) + "%", 0.0, 45.0);
+	}
+	
+	/**
+	 * Updates the size of this neural network display to the specified height and width.
+	 * @param width - The new width.
+	 * @param height - The new height.
+	 */
+	public void sizeChanged(double width, double height) {
+		setPrefHeight(height);
+		setPrefWidth(width);
+		this.width = width;
+		this.height = height;
+		canvasDraw.setWidth(width);
+		canvasDraw.setHeight(height);
+		canvasGrid.setWidth(width);
+		canvasGrid.setHeight(height);
+		canvasOverlay.setWidth(width);
+		canvasOverlay.setHeight(height);
+		redraw();
+		redrawGrid();
+		redrawOverlay();
 	}
 }

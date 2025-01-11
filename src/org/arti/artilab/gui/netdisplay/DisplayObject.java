@@ -1,5 +1,7 @@
 package org.arti.artilab.gui.netdisplay;
 
+import org.arti.artilab.gui.NetworkDisplay;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.shape.Rectangle;
 
@@ -27,10 +29,14 @@ public abstract class DisplayObject {
 	protected boolean rightClicked;
 	// X display location.
 	protected double x;
+	// X grid cell location.
+	protected double xCell;
 	// Mouse x location.
 	protected double xMouse;
 	// Y display location.
 	protected double y;
+	// Y grid cell location.
+	protected double yCell;
 	// Mouse y location.
 	protected double yMouse;
 	
@@ -45,6 +51,8 @@ public abstract class DisplayObject {
 		rightClicked = false;
 		x = 0.0;
 		y = 0.0;
+		xCell = 0.0;
+		yCell = 0.0;
 		xMouse = 0.0;
 		yMouse = 0.0;
 	}
@@ -116,8 +124,10 @@ public abstract class DisplayObject {
 	public void mouseClicked(double xCell, double yCell) {
 		if (moving) {
 			moving = false;
-			x = xCell;
-			y = yCell;
+			this.xCell = xCell;
+			this.yCell = yCell;
+			x = xCell * NetworkDisplay.GRID_CELL_SIZE + NetworkDisplay.GRID_CELL_SIZE * 0.5;
+			y = yCell * NetworkDisplay.GRID_CELL_SIZE + NetworkDisplay.GRID_CELL_SIZE * 0.5;
 		}
 	}
 	
@@ -164,10 +174,26 @@ public abstract class DisplayObject {
 	}
 	
 	/**
+	 * Returns the x grid cell location of this neural network display object.
+	 * @return The x grid cell location.
+	 */
+	public double xCell() {
+		return xCell;
+	}
+	
+	/**
 	 * Returns the y coordinate of this neural network display object.
 	 * @return The y coordinate.
 	 */
 	public double y() {
 		return y;
+	}
+	
+	/**
+	 * Returns the y grid cell location of this neural network display object.
+	 * @return The y grid cell location.
+	 */
+	public double yCell() {
+		return yCell;
 	}
 }

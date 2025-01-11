@@ -11,10 +11,12 @@ import org.arti.artilab.gui.events.AppTitleBarListener;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.robot.Robot;
@@ -94,6 +96,8 @@ public class App extends Application implements AppMainMenuBarListener, AppTitle
 	 */
 	public static final String TRACK_CSS = "css/track.css";
 	
+	// Home workspace.
+	private AppHome homeWorkspace;
 	// Izhikevich lab.
 	private IzhikevichLab iLab;
 	// Main layout.
@@ -112,6 +116,8 @@ public class App extends Application implements AppMainMenuBarListener, AppTitle
 	private AppTitleBar titleBar;
 	// Tool bar.
 	private AppToolBar toolBar;
+	// Workspace.
+	private Node workspace;
 
 	// App size listeners.
 	private ArrayList<AppSizeListener> sizeListener;
@@ -144,6 +150,11 @@ public class App extends Application implements AppMainMenuBarListener, AppTitle
 			prevWndHeight = scene.getWindow().getHeight();
 			prevWndWidth = scene.getWindow().getWidth();
 			stage.setFullScreen(true);
+			
+			layout.setPrefWidth(scene.getWidth());
+			layout.setPrefHeight(scene.getHeight());
+			layout.resize(scene.getWidth(), scene.getHeight());
+			
 			
 			for (AppSizeListener sl : sizeListener)
 				sl.sizeChanged(new AppSizeEvent(this, scene.getWidth(), scene.getHeight(), workspaceHeight()));
@@ -205,8 +216,20 @@ public class App extends Application implements AppMainMenuBarListener, AppTitle
 	@Override
 	public void menuItemSelected(AppMainMenuBarEvent e) {
 		switch (e.getMenuItem()) {
-		case AppMainMenuBar.Item.FILE_EXIT:
+		case FILE_EXIT:
 			shutdown();
+			break;
+		case IZHIKEVICH_LAB:
+			workspace = iLab;
+			layout.getChildren().set(3, workspace);
+			VBox.setVgrow(workspace, Priority.NEVER);
+			toolBar.displayEmptyToolBar();
+			break;
+		case NEURAL_NET_LAB:
+			workspace = netLab;
+			layout.getChildren().set(3, workspace);
+			VBox.setVgrow(workspace, Priority.ALWAYS);
+			toolBar.displayNetworkLabToolBar(netLab);
 			break;
 		default:
 			break;
@@ -238,26 +261,33 @@ public class App extends Application implements AppMainMenuBarListener, AppTitle
 		// Create tool bar
 		toolBar = new AppToolBar();
 		
+		// Create home workspace
+		homeWorkspace = new AppHome();
+		
 		// Create Izhikevich lab
 		iLab = new IzhikevichLab();
 		
 		// Create Neural Network lab
 		netLab = new NetworkLab();
-		toolBar.displayNetworkLabToolBar(netLab);
 		
 		// Create status bar
 		statusBar = new AppStatusBar();
 		
+		// Set workspace
+		workspace = homeWorkspace;
+		
 		// Create window layout
 		layout = new VBox();
 		layout.setBackground(Background.fill(DEF_BG_COLOR));
-		layout.getChildren().addAll(titleBar, mainMenuBar, toolBar, netLab, statusBar);
+		layout.getChildren().addAll(titleBar, mainMenuBar, toolBar, workspace, statusBar);
 		
 		// Create app size listeners
 		sizeListener = new ArrayList<AppSizeListener>();
 		sizeListener.add(titleBar);
 		sizeListener.add(toolBar);
+		sizeListener.add(homeWorkspace);
 		sizeListener.add(iLab);
+		sizeListener.add(netLab);
 		sizeListener.add(statusBar);
 		
 		// Create scene

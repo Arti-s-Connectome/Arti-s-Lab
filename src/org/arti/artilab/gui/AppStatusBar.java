@@ -47,7 +47,7 @@ public class AppStatusBar extends HBox implements AppSizeListener {
 				CornerRadii.EMPTY, BorderWidths.DEFAULT, new Insets(0.0, 0.0, 0.0, 0.0))));
 		setBackground(Background.fill(DEF_BG_COLOR));
 		setMaxHeight(MAX_HEIGHT);
-		setPrefHeight(MAX_HEIGHT);
+		setMinHeight(MAX_HEIGHT);
 	}
 	
 	@Override
