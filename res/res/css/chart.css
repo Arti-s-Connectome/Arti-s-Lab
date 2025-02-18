@@ -1,0 +1,30 @@
+.chart{
+	-fx-background: black;
+}
+.chart-vertical-zero-line{
+	-fx-stroke: rgb(179, 65, 128);
+	-fx-stroke-width: 1px;
+	-fx-opacity: 0.5;
+}
+.chart-horizontal-zero-line{
+	-fx-stroke: rgb(179, 65, 128);
+	-fx-stroke-width: 1px;
+	-fx-opacity: 0.5;
+}
+.chart-vertical-grid-lines{
+	-fx-stroke: rgb(130, 38, 89);
+	-fx-stroke-width: 1px;
+	-fx-opacity: 0.5;
+}
+.chart-horizontal-grid-lines{
+	-fx-stroke: rgb(130, 38, 89);
+	-fx-stroke-width: 1px;
+	-fx-opacity: 0.5;
+}
+.chart-legend-item-symbol{
+	-fx-background-radius: 0;
+}
+.chart-series-line{
+	-fx-stroke-width: 1px;
+	-fx-effect: null;
+}

@@ -1,0 +1,42 @@
+.combo-box-base  {
+    -fx-background-color: black;
+    -fx-background-radius: 15;
+	-fx-border-color: rgb(22, 200, 249);
+	-fx-border-radius: 15;
+	-fx-border-width: 2;
+	-fx-padding: 2, 2, 2, 2;
+}
+.combo-box .arrow {
+	-fx-background-color: rgb(22, 200, 249);
+}
+.combo-box .list-view {
+	-fx-background-color: black;
+	-fx-background-radius: 15;
+	-fx-border-color: rgb(22, 200, 249);
+	-fx-border-radius: 15;
+	-fx-border-width: 2;
+}
+.combo-box .list-cell {
+    -fx-background: black;
+	-fx-background-color: transparent;
+	-fx-background-radius: 15;
+	-fx-text-fill: rgb(22, 200, 249);
+}
+.combo-box .list-cell:filled:hover {
+	-fx-background-color: 		
+		#3c7fb1,
+		linear-gradient(#fafdfe, #e8f5fc),
+		linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+	-fx-background-radius: 15;
+	-fx-background-insets: 0,1,1;
+	-fx-text-fill: rgb(11, 100, 125);
+}
+.combo-box .list-cell:filled:selected:focused {
+	-fx-background-color: 		
+		#3c7fb1,
+		linear-gradient(#fafdfe, #e8f5fc),
+		linear-gradient(#eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+	-fx-background-radius: 15;
+	-fx-background-insets: 0,1,1;
+	-fx-text-fill: rgb(11, 100, 125);
+}
