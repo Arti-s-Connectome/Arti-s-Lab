@@ -1,0 +1,40 @@
+.scroll-bar {
+	-fx-background-color: transparent;
+}
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+	-fx-background-color: transparent;
+}
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button {
+	-fx-background-color: transparent;
+}
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+	-fx-background-color: transparent;
+}
+.scroll-bar:vertical .thumb {
+	-fx-background-color: linear-gradient(to right, #f4c4ec 0%, #ea8cdb 49%, #e986d9 50%, #df4ec8 100%);
+	-fx-background-radius: 15;
+}
+.scroll-bar:horizontal .thumb {
+	-fx-background-color: linear-gradient(to bottom, #f4c4ec 0%, #ea8cdb 49%, #e986d9 50%, #df4ec8 100%);
+	-fx-background-radius: 15;
+}
+.scroll-bar:vertical .thumb:hover {
+	-fx-background-color: linear-gradient(to right, #f4c4ec 0%, #ea8cdb 49%, #e986d9 50%, #df4ec8 100%);
+	-fx-background-radius: 15;
+}
+.scroll-bar:horizontal .thumb:hover {
+	-fx-background-color: linear-gradient(to bottom, #f4c4ec 0%, #ea8cdb 49%, #e986d9 50%, #df4ec8 100%);
+	-fx-background-radius: 15;
+}
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+	-fx-background-color: 		
+		#3c7fb1,
+		linear-gradient(to right, #fafdfe, #e8f5fc),
+		linear-gradient(to right, #eaf6fd 0%, #d9f0fc 49%, #bee6fd 50%, #a7d9f5 100%);
+	-fx-background-radius: 15;
+	-fx-background-insets: 0,1,1;
+}
