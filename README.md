@@ -1,7 +1,7 @@
-# Artilab
-- Artilab is a Java desktop app for designing, researching, and testing neuron and neural network models. Currently, it is a very new program under development, and it is intended to become our flagship research and development app.
-- Artilab requires JavaFX v23 and Java SDK v22.
-- A runnable JAR file for Artilab will be provided in the future.
+# Arti's Lab
+- Arti'a Lab is a Java desktop app for designing, researching, and testing neuron and neural network models. Currently, it is a very new program under development, and it is intended to become our flagship research and development app.
+- Arti'a Lab requires JavaFX v23 and Java SDK v22.
+- A runnable JAR file for Arti'a Lab will be provided in the future.
 
 # In-development
 Neural Model Lab
