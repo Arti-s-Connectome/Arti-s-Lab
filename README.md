@@ -3,15 +3,13 @@
 - Artilab requires JavaFX v23 and Java SDK v22.
 - A runnable JAR file for Artilab will be provided in the future.
 
-# Completed
-Izhikevich Neuron Lab
-- This lab environment allows for the creation and testing of Izhikevich spiking models.
-- Izhikevich's standard 20 spiking models are preprogrammed into the lab.
-- New models can be created and saved for later testing or use in the Neural Network Lab.
-
 # In-development
+Neural Model Lab
+- This lab will allow for testing preset neural models and creating new neural models.
+- All current preset neural models are from neural models created by Eugene M. Izhikevich.
+- Current preset neural models include models of dendrites, somas, and various types of spiking models.
 Neural Network Lab
-- This lab will allow for the creation and testing of neural networks, using Izhikevich's spiking models and our proximal and distal dendrite models.
+- This lab will allow for the creation and testing of neural networks, using the neural models available in our neural model lab, including user-created neural models.
 - This lab will feature a neural network display GUI that allows for the visual design, construction, and testing of neural networks.
 - Created neural networks will be able to be saved to the user's system.
 - Specialized data input functionality will be built into the lab to give neural networks various data sources and modalities for testing.
