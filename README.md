@@ -8,6 +8,7 @@ Neural Model Lab
 - This lab will allow for testing preset neural models and creating new neural models.
 - All current preset neural models are from neural models created by Eugene M. Izhikevich.
 - Current preset neural models include models of dendrites, somas, and various types of spiking models.
+  
 Neural Network Lab
 - This lab will allow for the creation and testing of neural networks, using the neural models available in our neural model lab, including user-created neural models.
 - This lab will feature a neural network display GUI that allows for the visual design, construction, and testing of neural networks.
